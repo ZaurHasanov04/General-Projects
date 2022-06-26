@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="task-box">
+        <h2>ToDo List</h2>
+        <form class="form-input"  method="post">
+            {% csrf_token %}
+            <input type="text" class="task-input" name="text">
+            <button class="task-submit" type="submit">Submit</button>
+        </form>
+        
+    </div>
+    
+    {% for x in task %}
+    <div class="task-list">
+        <form id="myform"  method="post" action="{% url 'update_task' x.id %}" class="content">
+            {% csrf_token %}
+            <input type="text" class="task-item" value="{{x.text}}" name="text" readonly>
+        </form>
+        <div class="actions">
+            <button class="edit" id="{{x.id}}">Edit</button>
+            <button class="accept">Accept</button>
+            <a href="{% url 'delete_task' x.id %}" ><button class="delete" type="submit">Delete</button></a>
+            
+        </div>
+    </div>
+    {% endfor %}
+
+
+    
+
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>
